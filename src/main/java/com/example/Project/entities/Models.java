@@ -1,9 +1,23 @@
 package com.example.Project.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.persistence.*;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = TvModels.class, name = "tv"),
+        @JsonSubTypes.Type(value = FridgeModels.class, name = "fridge"),
+        @JsonSubTypes.Type(value = ComputerModels.class, name = "computer"),
+        @JsonSubTypes.Type(value = SmartphoneModels.class, name = "smartphone"),
+        @JsonSubTypes.Type(value = VacuumModels.class, name = "vacuum")
+})
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Models {
